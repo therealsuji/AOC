@@ -24,17 +24,17 @@ func main() {
 		var line = fileScanner.Text()
 		var length = len(line)
 		var number = ""
+		var lastNumber = ""
 		for i := 0; i < length; i++ {
 			if _, err := strconv.Atoi(string(line[i])); err == nil {
-				number += string(line[i])
-				break
+				lastNumber = string(line[i])
+				if len(number) == 0 {
+					number += lastNumber
+				}
 			}
-		}
-
-		for i := length - 1; i >= 0; i-- {
-			if _, err := strconv.Atoi(string(line[i])); err == nil {
-				number += string(line[i])
-				break
+			// Once we have reached the end of the line, add the last number to the number
+			if i == length-1 {
+				number += lastNumber
 			}
 		}
 
@@ -44,6 +44,4 @@ func main() {
 	}
 
 	fmt.Println("Total: ", total)
-
-	fmt.Println("Done")
 }
