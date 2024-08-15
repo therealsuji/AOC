@@ -25,44 +25,44 @@ func main() {
 		var line = fileScanner.Text()
 		var length = len(line)
 		var number = ""
-		var lastNumber = ""
 		var potentialTextNumber = ""
-		var lastNumberIndex = -1
-		var lastPotentialTextNumber = ""
-		var lastPotentialTextNumberIndex = -1
 
 		for i := 0; i < length; i++ {
 			if _, err := strconv.Atoi(string(line[i])); err == nil {
-				lastNumber = string(line[i])
-				lastNumberIndex = i
-				if len(number) == 0 {
-					// First number found
-					number += lastNumber
-				}
+				potentialTextNumber = ""
+				number = string(line[i])
+				break
 			} else {
 				potentialTextNumber += string(line[i])
 				if num, isNumber := textToNumber(potentialTextNumber); isNumber {
-					lastPotentialTextNumberIndex = i
-					lastPotentialTextNumber = strconv.Itoa(num)
 					potentialTextNumber = ""
-					if len(number) == 0 {
-						number += strconv.Itoa(num)
-					}
-				}
-			}
-			// Once we have reached the end of the line, add the last number to the number
-			if i == length-1 {
-				if lastNumberIndex > lastPotentialTextNumberIndex {
-					number += lastNumber
-				}
-				if lastPotentialTextNumberIndex > lastNumberIndex {
-					number += lastPotentialTextNumber
+					number = strconv.Itoa(num)
+					break
 				}
 			}
 		}
 
-		num, _ := strconv.Atoi(number)
-		fmt.Println("Number: ", num)
+		for i := length - 1; i >= 0; i-- {
+			ch := string(line[i])
+			if _, err := strconv.Atoi(ch); err == nil {
+				number += ch
+				break
+			} else {
+				potentialTextNumber = ch + potentialTextNumber
+				if num, isNumber := textToNumber(potentialTextNumber); isNumber {
+					potentialTextNumber = ""
+					number += strconv.Itoa(num)
+					break
+				}
+			}
+		}
+
+		num, err := strconv.Atoi(number)
+		if err != nil {
+			fmt.Println("Error converting number:", err)
+			continue
+		}
+		fmt.Println("NUMBER ", num)
 		total += num
 	}
 
