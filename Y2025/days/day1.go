@@ -12,7 +12,7 @@ func mod(a, b int) int {
 	return (a%b + b) % b
 }
 
-func Part1() {
+func DayOnePart1() {
 	var fileName = "./testData/day1.txt"
 	readFile, err := os.Open(fileName)
 
@@ -44,7 +44,7 @@ func Part1() {
 	fmt.Println(zeroCount)
 }
 
-func Part2() {
+func DayOnePart2() {
 	var fileName = "./testData/day1.txt"
 	readFile, err := os.Open(fileName)
 
